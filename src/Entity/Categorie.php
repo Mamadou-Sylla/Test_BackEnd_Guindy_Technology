@@ -28,11 +28,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post_sous_categories' => ["method" => "POST", "path" => "/sous-categories", "route_name" => "post_sous_categories"],
         'post_sous_sous_categories' => ["method" => "POST", "path" => "/sous-sous-categories", "route_name" => "post_sous_sous_categories"],
     ],
-    itemOperations: [
-        'get' => ['path'=>'/{id}'],
-        'put' => ['path'=>'/{id}'],
-        'delete' => ['path'=>'/{id}'],
-    ],
     paginationEnabled: false,
     )]
 class Categorie

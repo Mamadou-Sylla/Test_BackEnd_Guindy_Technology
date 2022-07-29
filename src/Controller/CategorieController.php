@@ -47,7 +47,6 @@ class CategorieController extends AbstractController
                     # code...
                     $result = $repo->findOneBy(['id' => $categorie->getTypeCategorieId()]);
                     if($result->getTypeCategorieId() == null){
-                        dd($categorie);
                         $data[] = $categorie;
                     }
                 }
@@ -61,23 +60,24 @@ class CategorieController extends AbstractController
 
     public function getSousSousCategories(SerializerInterface $serializer, CategorieRepository $repo): Response
     {
-        // $categories= $repo->findAll();
-        // $data = [];
-        //     # code...
-        //     $i = 0;
-        //     foreach ($categories as $categorie) {
-        //         if ($categorie->getTypeCategorieId() != null) {
-        //             # code...
-        //             $result = $repo->findOneBy(['id' => $categorie->getTypeCategorieId()]);
-        //             if($result->getTypeCategorieId() == null){
-        //                 $data[] = $categorie;
-        //             }
-        //         }
-        //         $i++;
-        //     }
-        // return $this->json($data ,Response::HTTP_OK);
-        return $this->json("fi tmt mogui dokh" ,Response::HTTP_OK);
-
+        $categories= $repo->findAll();
+        $data = [];
+            # code...
+            $i = 0;
+            foreach ($categories as $categorie) {
+                if ($categorie->getTypeCategorieId() != null) {
+                    # code...
+                    $result = $repo->findOneBy(['id' => $categorie->getTypeCategorieId()]);
+                     if($result->getTypeCategorieId() != null){                   
+                        $donnees = $result = $repo->findOneBy(['id' => $result->getTypeCategorieId()]);
+                        if($donnees->getTypeCategorieId() == null){ 
+                            $data[] = $categorie;                  
+                        }
+                    }
+                }
+                $i++;
+            }
+        return $this->json($data ,Response::HTTP_OK);
     }
 
     #[Route('api/categories/sous-categories', methods: "POST", name: 'post_sous_categories')]
@@ -87,10 +87,6 @@ class CategorieController extends AbstractController
     {
         $result = $request->getContent();
         $data = $serializer->decode($result, "json");
-        // if(!isset($data['libelle'])) {
-        //     # code...
-        //     return new JsonResponse("Le libelle n'existe pas",Response::HTTP_BAD_REQUEST);
-        // }
          if (isset($data['type_categorie_id'])) {
             # code...
              $donnees = $data['type_categorie_id'];
